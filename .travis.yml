@@ -1,0 +1,25 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t nybecmd/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true nybecmd/react-test npm test
+
+after_success:
+  - docker build -t nybecmd/multi-client ./client
+  - docker build -t nybecmd/multi-nginx ./nginx
+  - docker build -t nybecmd/multi-server ./server
+  - docker build -t nybecmd/multi-worker ./worker
+
+  # Log into Docker CI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  # Push images to Docker Hub
+  - docker push nybecmd/multi-client
+  - docker push nybecmd/multi-nginx
+  - docker push nybecmd/multi-server
+  - docker push nybecmd/multi-worker
+
