@@ -9,17 +9,17 @@ script:
   - docker run -e CI=true nybecmd/react-test npm test
 
 after_success:
-  - docker build -t nybecmd/multi-client ./client
-  - docker build -t nybecmd/multi-nginx ./nginx
-  - docker build -t nybecmd/multi-server ./server
-  - docker build -t nybecmd/multi-worker ./worker
+  - docker build -t nybound/multi-client ./client
+  - docker build -t nybound/multi-nginx ./nginx
+  - docker build -t nybound/multi-server ./server
+  - docker build -t nybound/multi-worker ./worker
 
   # Log into Docker CI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
   # Push images to Docker Hub
-  - docker push nybecmd/multi-client
-  - docker push nybecmd/multi-nginx
-  - docker push nybecmd/multi-server
-  - docker push nybecmd/multi-worker
+  - docker push nybound/multi-client
+  - docker push nybound/multi-nginx
+  - docker push nybound/multi-server
+  - docker push nybound/multi-worker
 
