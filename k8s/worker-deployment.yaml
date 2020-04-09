@@ -15,4 +15,9 @@ spec:
       containers:
         - name: worker 
           image: nybound/multi-worker 
+          env:
+            - name: REDIS_HOST
+              value: cluster-ip-service
+            - name: REDIS_PORT
+              value: "6379"
 
